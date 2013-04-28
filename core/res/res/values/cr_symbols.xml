@@ -92,4 +92,7 @@
   <java-symbol type="string" name="global_action_screen_record" />
   <java-symbol type="bool" name="config_enableScreenrecordChord" />
 
+  <!-- In WiFi AP notification -->
+  <java-symbol type="string" name="notify_turn_wifi_ap_off_title" />
+
 </resources>
