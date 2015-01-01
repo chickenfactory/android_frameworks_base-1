@@ -3678,6 +3678,12 @@ public final class Settings {
          */
         public static final String NETWORK_TRAFFIC_AUTOHIDE = "network_traffic_autohide";
 
+        /** Whether to collapse panel when quick settings tile is pressed.
+         *
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_COLLAPSE_PANEL = "quick_settings_collapse_panel";
+
         /**
          * Network traffic inactivity threshold (default is 10 kBs)
          * @hide
