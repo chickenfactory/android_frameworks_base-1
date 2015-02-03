@@ -75,6 +75,7 @@ public class PerfProfileTile extends QSTile<PerfProfileTile.ProfileState> {
     @Override
     protected void handleClick() {
         changeToNextProfile();
+        qsCollapsePanel();
     }
 
     @Override

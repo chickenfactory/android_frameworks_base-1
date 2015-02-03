@@ -147,6 +147,7 @@ public class VisualizerTile extends QSTile<QSTile.State>
     protected void handleClick() {
         mHost.startSettingsActivity(new Intent(
                 AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL));
+        qsCollapsePanel();
     }
 
     @Override
