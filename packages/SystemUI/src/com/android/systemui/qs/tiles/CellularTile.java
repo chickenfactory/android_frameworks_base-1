@@ -80,11 +80,17 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
         } else {
             mHost.startSettingsActivity(DATA_USAGE_SETTINGS);
         }
+        qsCollapsePanel();
+    }
+
+    @Override
+    protected void handleSecondaryClick() {
+        mHost.startSettingsActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
     }
 
     @Override
     protected void handleLongClick() {
-        mHost.startSettingsActivity(CELLULAR_SETTINGS);
+        mHost.startSettingsActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
     }
 
     @Override
