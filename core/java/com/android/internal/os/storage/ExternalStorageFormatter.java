@@ -175,7 +175,6 @@ public class ExternalStorageFormatter extends Service
         String status = null;
         String extStoragePath = null;
         StorageVolume physicalVol;
-        boolean isUsbStorage = false;
         try {
             final IMountService mountService = getMountService();
             final StorageVolume[] volumes = mountService.getVolumeList();
@@ -188,13 +187,11 @@ public class ExternalStorageFormatter extends Service
                     } else {
                         physicalVol = physicalVols.get(0);
                         status = mStorageManager.getVolumeState(physicalVol.getPath()) ;
-                        isUsbStorage = physicalVol.getDescriptionId() == R.string.storage_usb;
                     }
                 }
                 //else use the specified storage volume
                 else {
                         status = mStorageManager.getVolumeState(mStorageVolume.getPath());
-                        isUsbStorage = mStorageVolume.getDescriptionId() == R.string.storage_usb;
                 }
         }
         catch (RemoteException e) {
@@ -202,8 +199,7 @@ public class ExternalStorageFormatter extends Service
         }
         if (Environment.MEDIA_MOUNTED.equals(status)
                 || Environment.MEDIA_MOUNTED_READ_ONLY.equals(status)) {
-            updateProgressDialog(isUsbStorage ? R.string.usb_progress_unmounting :
-                                                R.string.sd_progress_unmounting);
+            updateProgressDialog(R.string.progress_unmounting);
             try {
                 if(mIsFormatSuccess) return;
                 final IMountService mountService = getMountService();
@@ -234,10 +230,7 @@ public class ExternalStorageFormatter extends Service
         else if (Environment.MEDIA_NOFS.equals(status)
                 || Environment.MEDIA_UNMOUNTED.equals(status)
                 || Environment.MEDIA_UNMOUNTABLE.equals(status)) {
-            updateProgressDialog(isUsbStorage ? R.string.usb_progress_erasing :
-                                                R.string.sd_progress_erasing);
-            final int toastTextResId = isUsbStorage ? R.string.usb_format_error :
-                                                      R.string.sd_format_error;
+            updateProgressDialog(R.string.progress_erasing);
             final IMountService mountService = getMountService();
             if (mountService != null) {
                 new Thread() {
@@ -270,7 +263,7 @@ public class ExternalStorageFormatter extends Service
                         } catch (Exception e) {
                             Looper.prepare();
                             Toast.makeText(ExternalStorageFormatter.this,
-                                    toastTextResId, Toast.LENGTH_LONG).show();
+                                    R.string.format_error, Toast.LENGTH_LONG).show();
                         }
                         if (success) {
                             if (mFactoryReset) {
@@ -313,13 +306,13 @@ public class ExternalStorageFormatter extends Service
                 Log.w(TAG, "Unable to locate IMountService");
             }
         } else if (Environment.MEDIA_BAD_REMOVAL.equals(status)) {
-            fail(isUsbStorage ? R.string.usb_media_bad_removal : R.string.sd_media_bad_removal);
+            fail(R.string.media_bad_removal);
         } else if (Environment.MEDIA_CHECKING.equals(status)) {
-            fail(isUsbStorage ? R.string.usb_media_checking : R.string.sd_media_checking);
+            fail(R.string.media_checking);
         } else if (Environment.MEDIA_REMOVED.equals(status)) {
-            fail(isUsbStorage ? R.string.usb_media_removed : R.string.sd_media_removed);
+            fail(R.string.media_removed);
         } else if (Environment.MEDIA_SHARED.equals(status)) {
-            fail(isUsbStorage ? R.string.usb_media_shared : R.string.sd_media_shared);
+            fail(R.string.media_shared);
         } else {
             fail(R.string.media_unknown_state);
             Log.w(TAG, "Unknown storage state: " + status);
