@@ -6304,11 +6304,10 @@ public final class Settings {
         };
 
         /**
-         * Whether to enable "advanced mode" for the current user.
-         * Boolean setting. 0 = no, 1 = yes.
+         * Whether to show four tiles per row.
          * @hide
          */
-        public static final String ADVANCED_MODE = "advanced_mode";
+        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
 
         /**
          * String to contain power menu actions
@@ -6373,26 +6372,7 @@ public final class Settings {
          * Boolean setting. 0 = no, 1 = yes.
          * @hide
          */
-        public static final String POWER_MENU_ACTIONS = "power_menu_actions";
-
-        /**
-         * Developer options - Navigation Bar show switch
-         * @hide
-         */
-        public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
-
-        /**
-         * The keyboard brightness to be used while the screen is on.
-         * Valid value range is between 0 and {@link PowerManager#getMaximumKeyboardBrightness()}
-         * @hide
-         */
-        public static final String KEYBOARD_BRIGHTNESS = "keyboard_brightness";
-
-        /**
-         * Whether to show four tiles per row.
-         * @hide
-         */
-        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+        public static final String ADVANCED_MODE = "advanced_mode";
 
         /**
          * This are the settings to be backed up.
