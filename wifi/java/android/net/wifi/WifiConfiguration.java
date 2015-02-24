@@ -862,7 +862,7 @@ public class WifiConfiguration implements Parcelable {
         noInternetAccess = false;
         mIpConfiguration = new IpConfiguration();
         duplicateNetwork = false;
-        SIMNum = 0;
+        SIMNum = 1;
     }
 
     /**
