@@ -448,6 +448,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.HEADS_UP_DISMISS_ON_REMOVE), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CLOCK), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -459,8 +462,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_TOUCH_OUTSIDE), false, this,
                     UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CLOCK), false, this);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
