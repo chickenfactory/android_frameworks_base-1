@@ -80,7 +80,6 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
         } else {
             mHost.startSettingsActivity(DATA_USAGE_SETTINGS);
         }
-        qsCollapsePanel();
     }
 
     @Override
