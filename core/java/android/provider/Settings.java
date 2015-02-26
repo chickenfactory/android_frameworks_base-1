@@ -2727,14 +2727,6 @@ public final class Settings {
         public static final String ENABLE_HW_KEYS = Secure.ENABLE_HW_KEYS;
 
         /**
-         * Developer options - Navigation Bar show switch
-         * @deprecated Use {@link android.provider.Settings.Secure#DEV_FORCE_SHOW_NAVBAR} instead
-         * @hide
-         */
-        @Deprecated
-        public static final String DEV_FORCE_SHOW_NAVBAR = Secure.DEV_FORCE_SHOW_NAVBAR;
-
-        /**
          * Date format string
          *   mm/dd/yyyy
          *   dd/mm/yyyy
@@ -6313,15 +6305,6 @@ public final class Settings {
                 "navigation_ring_targets_1",
                 "navigation_ring_targets_2",
         };
-
-        /**
-         * The global recents long press activity chosen by the user.
-         * This setting is stored as a flattened component name as
-         * per {@link ComponentName#flattenToString()}.
-         *
-         * @hide
-         */
-        public static final String RECENTS_LONG_PRESS_ACTIVITY = "recents_long_press_activity";
 
         /**
          * Whether to show four tiles per row.
