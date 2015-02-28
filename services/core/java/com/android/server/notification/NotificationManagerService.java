@@ -34,6 +34,7 @@ import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Profile;
 import android.app.ProfileGroup;
 import android.app.ProfileManager;
 import android.app.StatusBarManager;
@@ -56,9 +57,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.AudioSystem;
 import android.media.IRingtonePlayer;
-import android.media.session.MediaController;
-import android.media.session.MediaSessionManager;
-import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
@@ -129,7 +127,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -291,7 +288,6 @@ public class NotificationManagerService extends SystemService {
     private static final int REASON_LISTENER_CANCEL = 10;
     private static final int REASON_LISTENER_CANCEL_ALL = 11;
     private static final int REASON_GROUP_SUMMARY_CANCELED = 12;
-    private boolean mDisableDuckingWhileMedia;
 
     private static class Archive {
         final int mBufferSize;
@@ -791,7 +787,7 @@ public class NotificationManagerService extends SystemService {
         }
     };
 
-    class SettingsObserver extends ContentObserver {
+    class LEDSettingsObserver extends ContentObserver {
         private final Uri NOTIFICATION_LIGHT_PULSE_URI
                 = Settings.System.getUriFor(Settings.System.NOTIFICATION_LIGHT_PULSE);
         private final Uri MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD_URI
@@ -799,7 +795,7 @@ public class NotificationManagerService extends SystemService {
         private final Uri ENABLED_NOTIFICATION_LISTENERS_URI
                 = Settings.Secure.getUriFor(Settings.Secure.ENABLED_NOTIFICATION_LISTENERS);
 
-        SettingsObserver(Handler handler) {
+        LEDSettingsObserver(Handler handler) {
             super(handler);
         }
 
@@ -826,9 +822,6 @@ public class NotificationManagerService extends SystemService {
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD_URI,
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Global.getUriFor(
-                    Settings.Global.ZEN_DISABLE_DUCKING_WHILE_ACTIVE_MEDIA), false,
-                    this, UserHandle.USER_ALL);
             update(null);
         }
 
@@ -874,13 +867,10 @@ public class NotificationManagerService extends SystemService {
                        UserHandle.USER_CURRENT_OR_SELF);
             }
             updateNotificationPulse();
-
-            mDisableDuckingWhileMedia = Settings.Global.getInt(mContext.getContentResolver(),
-                                   Settings.Global.ZEN_DISABLE_DUCKING_WHILE_ACTIVE_MEDIA, 0) == 1;
-            }
+        }
     }
 
-    private SettingsObserver mSettingsObserver;
+    private LEDSettingsObserver mSettingsObserver;
     private ZenModeHelper mZenModeHelper;
 
     private final Runnable mBuzzBeepBlinked = new Runnable() {
@@ -1022,7 +1012,7 @@ public class NotificationManagerService extends SystemService {
         IntentFilter sdFilter = new IntentFilter(Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
         getContext().registerReceiver(mIntentReceiver, sdFilter);
 
-        mSettingsObserver = new SettingsObserver(mHandler);
+        mSettingsObserver = new LEDSettingsObserver(mHandler);
         mSettingsObserver.observe();
 
         mArchive = new Archive(resources.getInteger(
@@ -1030,9 +1020,6 @@ public class NotificationManagerService extends SystemService {
 
         publishBinderService(Context.NOTIFICATION_SERVICE, mService);
         publishLocalService(NotificationManagerInternal.class, mInternalService);
-
-        mDisableDuckingWhileMedia = Settings.Global.getInt(mContext.getContentResolver(),
-                Settings.Global.ZEN_DISABLE_DUCKING_WHILE_ACTIVE_MEDIA, 0) == 1;
     }
 
     /**
@@ -1993,20 +1980,6 @@ public class NotificationManagerService extends SystemService {
             mAnnoyingNotifications.put(pkg, currentTime);
             return false;
         }
-	}
-
-    private boolean isMediaActive() {
-        MediaSessionManager mediaSessionManager = (MediaSessionManager) mContext
-                .getSystemService(Context.MEDIA_SESSION_SERVICE);
-        // initialize state
-        List<MediaController> activeSessions = mediaSessionManager.getActiveSessions(null);
-        for (MediaController activeSession : activeSessions) {
-            PlaybackState playbackState = activeSession.getPlaybackState();
-            if (playbackState != null && playbackState.getState() == PlaybackState.STATE_PLAYING) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void buzzBeepBlinkLocked(NotificationRecord record) {
@@ -2082,8 +2055,6 @@ public class NotificationManagerService extends SystemService {
                 soundUri = notification.sound;
                 hasValidSound = (soundUri != null);
             }
-
-            hasValidSound = hasValidSound && (!mDisableDuckingWhileMedia || !isMediaActive());
 
             if (hasValidSound) {
                 boolean looping =
