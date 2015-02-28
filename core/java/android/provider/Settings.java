@@ -1451,15 +1451,13 @@ public final class Settings {
                 int userHandle) {
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
-                        + " to android.provider.Settings.Secure.");
-
-                return Secure.putStringForUser(resolver, name, value, userHandle);
+                        + " to android.provider.Settings.Secure, value is unchanged.");
+                return false;
             }
             if (MOVED_TO_GLOBAL.contains(name) || MOVED_TO_SECURE_THEN_GLOBAL.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
-                        + " to android.provider.Settings.Global.");
-
-                return Global.putStringForUser(resolver, name, value, userHandle);
+                        + " to android.provider.Settings.Global, value is unchanged.");
+                return false;
             }
             return sNameValueCache.putStringForUser(resolver, name, value, userHandle);
         }
@@ -3493,6 +3491,12 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
 
         /**
+         *  Enable navigation bar double tap gesture on to put device to sleep
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_NAVBAR = "double_tap_sleep_navbar";
+
+        /**
          * Boolean value on whether to show weather in the statusbar
          * @hide
          */
@@ -3718,6 +3722,12 @@ public final class Settings {
          */
         @ChaosLab(name="GestureAnywhere", classification=Classification.NEW_FIELD)
         public static final String GESTURE_ANYWHERE_SHOW_TRIGGER = "gesture_anywhere_show_trigger";
+
+        /**
+         * Statusbar crDroid logo
+         * @hide
+         */
+        public static final String STATUS_BAR_CRDROID_LOGO = "status_bar_crdroid_logo";
 
         /**
          * Toast animations
