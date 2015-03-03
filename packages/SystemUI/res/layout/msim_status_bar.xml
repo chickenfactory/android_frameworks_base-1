@@ -51,13 +51,13 @@
         >
 
         <TextView
-            android:id="@+id/temasek_custom_label"
+            android:id="@+id/crdroid_custom_label"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingStart="7dp"
             android:visibility="gone"
-            android:text="@string/temasek_label"
+            android:text="@string/crdroid_label"
             android:textAppearance="@style/TextAppearance.StatusBar.Clock"
             />
 
