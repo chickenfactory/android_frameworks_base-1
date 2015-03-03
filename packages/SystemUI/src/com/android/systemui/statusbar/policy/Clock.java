@@ -209,8 +209,7 @@ public class Clock implements DemoMode {
         } else {
             sdf = mClockFormat;
         }
-        String result = sdf.format(mCalendar.getTime());
-
+        
         mShowClockSeconds = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.CLOCK_USE_SECOND, 0) == 1;
         if (mShowClockSeconds) {
