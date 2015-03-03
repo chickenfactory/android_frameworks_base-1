@@ -108,6 +108,9 @@ public class Clock implements DemoMode {
         }
     }
 
+    private final Handler handler = new Handler();
+    TimerTask second;
+
     public Clock(Context context, TextView v) {
         mContext = context;
         mClockView = v;
