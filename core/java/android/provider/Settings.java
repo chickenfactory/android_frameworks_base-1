@@ -2265,6 +2265,7 @@ public final class Settings {
         public static final String BATTERY_SAVER_MODE_COLOR = "battery_save_mode_color";
 
         /**
+         * Deprecated Use {@link android.provider.Settings.Secure.QS_TILES}
          * List of QS tile names
          * @deprecated Use {@link android.provider.Settings.Secure#QS_TILES} instead
          * @hide
@@ -2699,7 +2700,7 @@ public final class Settings {
 
         /**
          * Wether navigation bar is enabled or not
-         * @deprecated
+         * @deprecated Use {@link android.provider.Settings.Secure#NAVIGATION_BAR_SHOW} instead
          * @hide
          */
         public static final String NAVIGATION_BAR_SHOW = Secure.NAVIGATION_BAR_SHOW;

@@ -239,7 +239,6 @@ public class VisualizerTile extends QSTile<QSTile.State>
             mVisualizer.animate()
                     .setDuration(200)
                     .alpha(showVz ? 1.f : 0.f);
-
             mStaticVisualizerIcon.animate().cancel();
             mStaticVisualizerIcon.animate()
                     .setDuration(200)
