@@ -72,38 +72,11 @@ public class Clock implements DemoMode {
     private SimpleDateFormat mClockFormat;
     private SettingsObserver settingsObserver;
 
-<<<<<<< HEAD
     private int mAmPmStyle = AM_PM_STYLE_GONE;
     private boolean mDemoMode;
     private boolean mAttached;
-=======
-    public static final int CLOCK_DATE_STYLE_REGULAR = 0;
-    public static final int CLOCK_DATE_STYLE_LOWERCASE = 1;
-    public static final int CLOCK_DATE_STYLE_UPPERCASE = 2;
 
-    public static final int STYLE_CLOCK_RIGHT   = 0;
-    public static final int STYLE_CLOCK_CENTER  = 1;
-    public static final int STYLE_CLOCK_LEFT    = 2;
-
-    public static final int FONT_BOLD = 0;
-    public static final int FONT_CONDENSED = 1;
-    public static final int FONT_LIGHT = 2;
-    public static final int FONT_LIGHT_ITALIC = 3;
-    public static final int FONT_NORMAL = 4;
-
-    protected int mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
-    protected int mClockDateStyle = CLOCK_DATE_STYLE_REGULAR;
-    protected int mClockStyle = STYLE_CLOCK_RIGHT;
-    protected int mClockFontStyle = FONT_NORMAL;
-    protected boolean mShowClock;
-    private int mClockAndDateWidth;
     protected boolean mShowClockSeconds = false;
-
-    private int mAmPmStyle;
-
-    private SettingsObserver mSettingsObserver;
-    private PhoneStatusBar mStatusBar;
->>>>>>> b0c5a54... FWB: Second Clock (1/2)
 
     class SettingsObserver extends UserContentObserver {
         SettingsObserver(Handler handler) {
@@ -115,59 +88,17 @@ public class Clock implements DemoMode {
             super.observe();
 
             ContentResolver resolver = mContext.getContentResolver();
-<<<<<<< HEAD
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_AM_PM), false, this, UserHandle.USER_ALL);
-=======
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_CLOCK),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_STYLE), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_COLOR), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_DISPLAY), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_STYLE), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_FORMAT), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_FONT_STYLE), false,
-                    this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.CLOCK_USE_SECOND), false,
                     mSettingsObserver);
->>>>>>> b0c5a54... FWB: Second Clock (1/2)
             updateSettings();
         }
 
         @Override
-<<<<<<< HEAD
         protected void unobserve() {
             super.unobserve();
-=======
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
-    private final Handler handler = new Handler();
-    TimerTask second;
-
-    public Clock(Context context) {
-        this(context, null);
-    }
->>>>>>> b0c5a54... FWB: Second Clock (1/2)
-
             mContext.getContentResolver().unregisterContentObserver(this);
         }
 
@@ -277,39 +208,12 @@ public class Clock implements DemoMode {
         }
         String result = sdf.format(mCalendar.getTime());
 
-<<<<<<< HEAD
-=======
         mShowClockSeconds = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.CLOCK_USE_SECOND, 0) == 1;
         if (mShowClockSeconds) {
             String temp = result;
             result = String.format("%s:%02d", temp, new GregorianCalendar().get(Calendar.SECOND));
         }
-
-        if (mClockDateDisplay != CLOCK_DATE_DISPLAY_GONE) {
-            Date now = new Date();
-
-            String clockDateFormat = Settings.System.getString(getContext().getContentResolver(),
-                    Settings.System.STATUSBAR_CLOCK_DATE_FORMAT);
-            if (clockDateFormat == null || clockDateFormat.isEmpty()) {
-                // Set dateString to short uppercase Weekday (Default for AOKP) if empty
-                dateString = DateFormat.format("EEE", now) + " ";
-            } else {
-                dateString = DateFormat.format(clockDateFormat, now) + " ";
-            }
-            if (mClockDateStyle == CLOCK_DATE_STYLE_LOWERCASE) {
-                // When Date style is small, convert date to uppercase
-                result = dateString.toString().toLowerCase() + result;
-            } else if (mClockDateStyle == CLOCK_DATE_STYLE_UPPERCASE) {
-                result = dateString.toString().toUpperCase() + result;
-            } else {
-                result = dateString.toString() + result;
-            }
-        }
-
-        SpannableStringBuilder formatted = new SpannableStringBuilder(result);
-
->>>>>>> b0c5a54... FWB: Second Clock (1/2)
         if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
             int magic1 = result.indexOf(MAGIC1);
             int magic2 = result.indexOf(MAGIC2);
@@ -353,7 +257,6 @@ public class Clock implements DemoMode {
                     }
                 }
 
-<<<<<<< HEAD
                 if (a >= 0) {
                     // Move a back so any whitespace before AM/PM is also in the alternate size.
                     final int b = a;
@@ -368,7 +271,7 @@ public class Clock implements DemoMode {
             mClockFormatString = format;
         } else {
             sdf = mClockFormat;
-=======
+        }
         mShowClockSeconds = Settings.System.getIntForUser(resolver,
                 Settings.System.CLOCK_USE_SECOND, 0,
                 UserHandle.USER_CURRENT) == 1;
@@ -390,16 +293,7 @@ public class Clock implements DemoMode {
             Timer timer = new Timer();
             timer.schedule(second, 0, 1001);
         }
-
-        if (mAttached) {
-            setTextColor(clockColor);
-            getFontStyle(mClockFontStyle);
-            updateClockVisibility();
-            updateClock();
->>>>>>> b0c5a54... FWB: Second Clock (1/2)
-        }
         return sdf;
-
     }
 
     void updateClock() {
