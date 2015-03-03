@@ -314,7 +314,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // the icons themselves
     IconMerger mNotificationIcons;
     View mNotificationIconArea;
-    TextView mTemasekLabel;
+    TextView mCrdroidLabel;
 
     // [+>
     View mMoreIcon;
@@ -582,7 +582,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.STATUS_BAR_GREETING,
                     UserHandle.USER_CURRENT);
             if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
-                mTemasekLabel.setText(mGreeting);
+                mCrdroidLabel.setText(mGreeting);
             }
 
             mShowLabelTimeout = Settings.System.getIntForUser(resolver,
@@ -1022,7 +1022,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNotificationIconArea = mStatusBarView.findViewById(R.id.notification_icon_area_inner);
         mNotificationIcons = (IconMerger)mStatusBarView.findViewById(R.id.notificationIcons);
         mMoreIcon = mStatusBarView.findViewById(R.id.moreIcon);
-        mTemasekLabel = (TextView)mStatusBarView.findViewById(R.id.temasek_custom_label);
+        mCrdroidLabel = (TextView)mStatusBarView.findViewById(R.id.crdroid_custom_label);
         mNotificationIcons.setOverflowIndicator(mMoreIcon);
         mStatusBarContents = (LinearLayout)mStatusBarView.findViewById(R.id.status_bar_contents);
 
@@ -2479,9 +2479,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else {
                 if (mGreeting != null && !TextUtils.isEmpty(mGreeting) && mShowLabel) {
                     if (animate) {
-                        mTemasekLabel.setVisibility(View.VISIBLE);
-                        mTemasekLabel.animate().cancel();
-                        mTemasekLabel.animate()
+                        mCrdroidLabel.setVisibility(View.VISIBLE);
+                        mCrdroidLabel.animate().cancel();
+                        mCrdroidLabel.animate()
                                 .alpha(1f)
                                 .setDuration(mShowLabelTimeout)
                                 .setInterpolator(ALPHA_IN)
@@ -2564,8 +2564,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     protected void labelAnimatorFadeOut(final boolean animate) {
-        mTemasekLabel.animate().cancel();
-        mTemasekLabel.animate()
+        mCrdroidLabel.animate().cancel();
+        mCrdroidLabel.animate()
                 .alpha(0f)
                 .setDuration(200)
                 .setStartDelay(1200)
@@ -2573,7 +2573,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 .withEndAction(new Runnable() {
             @Override
             public void run() {
-                mTemasekLabel.setVisibility(View.GONE);
+                mCrdroidLabel.setVisibility(View.GONE);
                 animateStatusBarShow(mNotificationIconArea, animate);
             }
         });
@@ -3997,7 +3997,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.STATUS_BAR_GREETING,
                     UserHandle.USER_CURRENT);
             if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
-                mTemasekLabel.setText(mGreeting);
+                mCrdroidLabel.setText(mGreeting);
             }
             mShowLabelTimeout = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_GREETING_TIMEOUT, 400,

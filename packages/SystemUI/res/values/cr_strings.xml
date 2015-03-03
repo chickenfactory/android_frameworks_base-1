@@ -41,6 +41,6 @@
     <string name="navring_action_power_menu">Power Menu</string>
 
     <!-- Greeting -->
-    <string name="temasek_label">Welcome to temasek</string>
+    <string name="crdroid_label">Welcome to crdroid</string>
 
 </resources>
